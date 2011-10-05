@@ -10,85 +10,85 @@
 // ==/UserScript==
 
 /**
- *
+ * 
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- *
+ * 
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
- *
- *
+ * 
+ * 
  * Changelog: ==========
- *
+ * 
  * 2.1 fix bug on Firefox 3.6.x
- *
+ * 
  * 2.0 - rewrite source code - support Firefox 6 - support IDWS
- *
+ * 
  * 1.20 add button 'Show All' at top & bottom thread. This button can show/hide
  * all spoiler in current page
- *
+ * 
  * 1.19 - add browser support Firefox 5.x - add html tag id (now easy to
  * identify html tag created by KSA)
- *
+ * 
  * 1.18 fix bug: hidden link not detected if bbcode contains space/text between
  * URL and SPOILER bbcode [URL=http://www.foo.com/#] extra space
  * [SPOILER=bar]lol[/SPOILER][/URL] thanks to tuxie.forte
- *
+ * 
  * 1.17 add new feature: preview URL (title + original link)
- *
+ * 
  * 1.16 add browser support Firefox 4.x
- *
+ * 
  * 1.15 - support any standard vbulletin forum (tested on kaskus.us,
  * indoforum.org) - change all warning messages to english - add script update
  * notification
- *
+ * 
  * 1.14 support google chrome
- *
+ * 
  * 1.13 add http://www.kaskus.us/group.php* to
- *
+ * 
  * @include and change the script to support it
- *
+ * 
  * 1.12 fix bug: link alert (too sensitive, now only check domain name)
- *
+ * 
  * 1.11 - scroll page to closed spoiler after 'Hide All' clicked - hide button
  * Show/Hide All if post contains 1 spoiler - add new feature: fake link alert
  * (show info if link text not equal to link url)
- *
+ * 
  * 1.10 add http://www.kaskus.us/showpost.php* to
  * @include, thanks to hermawanadhis
- *
+ * 
  * 1.9 revert back to 1.7 design with two button ('Show All' and 'Show') and
  * remove the popup menu
- *
+ * 
  * 1.8 - move 'Show All' and 'Show Children' button into popup menu - fixed bug:
  * button label 'Show'/'Hide'
- *
+ * 
  * 1.7 - change button 'Show All' -> 'Show Children' (open/close child spoiler) -
  * add button 'Show All' (open/close all spoilers)
- *
+ * 
  * 1.6 add button 'Show All' to open/close all child spoiler
- *
+ * 
  * 1.5 exclude kaskus smiley from picture counter
- *
+ * 
  * 1.4 add new feature: show how many picture and spoiler inside spoiler
- *
+ * 
  * 1.3 rewrite link detection thanks to "p1nk3d_books"
- *
+ * 
  * 1.2 fixed bug, hidden link not detected if font color changed thanks to
  * "p1nk3d_books"
- *
+ * 
  * 1.1 remove link from spoiler and show the hidden link thanks to "firo sXe"
  * (kaskusid 650045)
- *
+ * 
  * 1.0 first release
- *
+ * 
  */
 (function() {
 	var script = {
@@ -97,8 +97,8 @@
 		metaurl : 'http://userscripts.org/scripts/source/73498.meta.js',
 
 		checkUpdate : function() {
-			var interval = 1000 * 60 * 60 * 12; // 12 hour = (12 hour * 60 * 60
-												// * 1000 ms)
+			// 12 hour = (12 hour * 60 * 60 * 1000 ms)
+			var interval = 1000 * 60 * 60 * 12;
 			var lastCheck = parseInt(GM_getValue("KASKUS_SPA_LAST_CHECK", "0"));
 			if (lastCheck + interval <= new Date().getTime()) {
 				GM_xmlhttpRequest( {
@@ -138,8 +138,8 @@
 
 	String.prototype.escapeHTML = function() {
 		return this.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g,
-				"&gt;")
-	}
+				"&gt;");
+	};
 	/*
 	 * // dont run in frames, prevents detection and misuse of unsafewindow try {
 	 * var unsafeWindow = unsafeWindow || window.wrappedJSObject || window;
@@ -153,30 +153,41 @@
 	};
 
 	var URL = {
-		filename : function(path) {
-			var suffix = null;
-			var tailcut = "\\?";
-			// Returns the filename component of the path
+		// Returns the filename component of the path
 		// + original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
 		// * example 1: basename('/www/site/home.htm', '.htm'); // * returns 1:
 		// 'home'
 		// * example 2: basename('ecra.php?p=1');
-		var b = path.replace(/^.*[\/\\]/g, '');
-		if (typeof (suffix) == 'string'
-				&& b.substr(b.length - suffix.length) == suffix)
-			b = b.substr(0, b.length - suffix.length);
-		if (typeof (tailcut) == 'string')
-			b = b.replace(new RegExp(tailcut + ".*$", "g"), '');
-		return b;
-	},
-	domain : function(url) {
-		var m = url.match(/(http:\/\/[^?\/]+)/);
-		if (m) {
-			return m[1];
+		filename : function(path) {
+			var suffix = null;
+			var tailcut = "\\?";
+
+			var b = path.replace(/^.*[\/\\]/g, '');
+			if (typeof (suffix) == 'string'
+					&& b.substr(b.length - suffix.length) == suffix)
+				b = b.substr(0, b.length - suffix.length);
+			if (typeof (tailcut) == 'string')
+				b = b.replace(new RegExp(tailcut + ".*$", "g"), '');
+			return b;
+		},
+		domain : function(url) {
+			var m = url.match(/(http:\/\/[^?\/]+)/);
+			if (m) {
+				return m[1];
+			}
+			return null;
 		}
-		return null;
-	}
 	};
+
+	function getCurrentYPos() {
+		if (document.body && document.body.scrollTop)
+			return document.body.scrollTop;
+		if (document.documentElement && document.documentElement.scrollTop)
+			return document.documentElement.scrollTop;
+		if (window.pageYOffset)
+			return window.pageYOffset;
+		return 0;
+	}
 
 	function click(elm) {
 		var evt = document.createEvent('MouseEvents');
@@ -184,8 +195,8 @@
 		elm.dispatchEvent(evt);
 	}
 
-	function isChildOf(parent, child) {// Utility function for mouseout
-										// listener
+	// Utility function for mouseout listener
+	function isChildOf(parent, child) {
 		if (child != null) {
 			while (child.parentNode) {
 				if ((child = child.parentNode) == parent) {
@@ -222,7 +233,6 @@
 		}
 		return root.getElementsByTagName(q);
 	}
-	;
 
 	function VBLink(el, parent, idx) {
 		this.id = 'KSA-link-' + parent.id + '-' + idx;
@@ -230,6 +240,10 @@
 		this.vbPost = parent;
 
 		this.noPreviewURL = function() {
+			var configLinkPreview = GM_getValue("KSA_LINK_PREVIEW", "true");
+			if(!configLinkPreview) {
+				return true;
+			}
 			var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
 			if (!is_ff) { // disable preview URL on browser other than firefox
 				return true;
@@ -256,7 +270,7 @@
 				return true;
 			}
 			return false;
-		}
+		};
 
 		this.showPreview = function(event) {
 			if (event.pageX || event.pageY) {
@@ -276,7 +290,7 @@
 					method : 'GET',
 					url : this.element.href,
 					onerror : function(rsp) {
-						this.vbLink.contentTitle = 'Error'
+						this.vbLink.contentTitle = 'Error';
 						this.vbLink.contentURL = 'Invalid or blocked URL';
 						VBPage.showPopup(left, top, this.vbLink.contentTitle,
 								this.vbLink.contentURL);
@@ -291,7 +305,7 @@
 								this.vbLink.contentTitle = title[1];
 							}
 						} else {
-							this.vbLink.contentTitle = 'Error'
+							this.vbLink.contentTitle = 'Error';
 							this.vbLink.contentURL = 'Invalid or blocked URL';
 						}
 						VBPage.showPopup(left, top, this.vbLink.contentTitle,
@@ -301,7 +315,7 @@
 			} else {
 				VBPage.showPopup(left, top, this.contentTitle, this.contentURL);
 			}
-		}
+		};
 
 		this.hidePreview = function(event) {
 			var a = this.element;
@@ -317,13 +331,13 @@
 					&& !isChildOf(a, current_mouse_target)) {
 				VBPage.hidePopup();
 			}
-		}
+		};
 
 		this.setupKSA = function(index) {
 			var btn = getElement('.//input[@type="button" and @value="Show"]',
 					this.element);
 			if (btn.length > 0) { // kalau ada button 'Show' berarti spoiler
-									// jebakan
+				// jebakan
 				// move children element of the link to its parent node
 				var achildren = this.element.childNodes;
 				var n = achildren.length;
@@ -343,17 +357,9 @@
 				var patt = new RegExp("^\s*http:\/\/[^?\/]+", "i");
 				this.title = patt.exec(this.element.innerHTML.trim());
 				this.url = patt.exec(this.element.href);
+				// kalo innerHTML starts with http dan gak sama dgn href
 				if (this.title && this.url
-						&& this.title.toString() != this.url.toString()) { // kalo
-																			// innerHTML
-																			// starts
-																			// with
-																			// http
-																			// dan
-																			// gak
-																			// sama
-																			// dgn
-																			// href
+						&& this.title.toString() != this.url.toString()) {
 					// buat info link jebakan
 					var info = document.createElement('span');
 					info.id = this.id + '-info';
@@ -388,7 +394,7 @@
 					}, false);
 				}
 			}
-		}
+		};
 	}
 
 	function VBSpoiler(el, parent, idx) {
@@ -429,7 +435,7 @@
 			 * if(str.contains('Hide') && this.isTopSpoiler) {
 			 * this.element.scrollIntoView(true); }
 			 */
-		}
+		};
 
 		this.setupKSA = function() {
 			this.innerSpoilers = getElement(
@@ -462,14 +468,11 @@
 			this.btShowAll.setAttribute('postid', this.vbPost.id);
 			this.btShowAll.addEventListener('click', function() {
 				if (this.vbPost) {
-					this.vbPost.showAllClick(this.value.substring(0, 4)); // substring
-																			// to
-																			// remove
-																			// 'All'
+					// substring to remove 'All'
+					this.vbPost.showAllClick(this.value.substring(0, 4));
 				} else {
 					VBPage.getPost(this.getAttribute('postid')).showAllClick(
-							this.value.substring(0, 4)); // substring to
-															// remove 'All'
+							this.value.substring(0, 4));
 				}
 			}, true);
 			this.btShow.parentNode.insertBefore(this.btShowAll, this.btShow);
@@ -484,8 +487,8 @@
 				for ( var k = 0; k < imgs.length; ++k) {
 					if (imgs[k].src
 							.indexOf('http://static.kaskus.us/images/smilies') == -1) { // ignore
-																						// kaskus
-																						// smiley
+						// kaskus
+						// smiley
 						var size = imgs[k].width * imgs[k].height;
 						if (size > 3000) { // ignore icon < 50x50
 							if (maxSize < size) {
@@ -537,7 +540,7 @@
 				ret.push(new VBSpoiler(sp, this, i));
 			}
 			return ret;
-		}
+		};
 
 		this.getSpoiler = function(id) {
 			for ( var i = 0; i < this.spoilers.length; ++i) {
@@ -545,7 +548,7 @@
 					return this.spoilers[i];
 				}
 			}
-		}
+		};
 
 		this.getLinks = function() {
 			var ret = [];
@@ -555,7 +558,7 @@
 				ret.push(new VBLink(l, this, i));
 			}
 			return ret;
-		}
+		};
 
 		this.getLink = function(id) {
 			for ( var i = 0; i < this.links.length; ++i) {
@@ -563,7 +566,7 @@
 					return this.links[i];
 				}
 			}
-		}
+		};
 
 		this.showAllClick = function(str) {
 			for ( var i = 0; i < this.spoilers.length; ++i) {
@@ -572,7 +575,7 @@
 			/*
 			 * if(str.contains('Hide')) { this.element.scrollIntoView(true); }
 			 */
-		}
+		};
 
 		this.setupKSA = function() {
 			this.spoilers = this.getSpoilers();
@@ -587,9 +590,8 @@
 			for ( var i = 0; i < this.links.length; ++i) {
 				this.links[i].setupKSA(i);
 			}
-		}
+		};
 	}
-	;
 
 	// VBulletin page
 	var VBPage = {
@@ -604,7 +606,7 @@
 			} else {
 				var el = getElement('.//*[starts-with(@id,"post")]');
 				var pattern = new RegExp('^post_?[0-9]+$'); // match post1234 or
-															// post_1234
+				// post_1234
 				for ( var i = 0; i < el.length; ++i) {
 					if (pattern.test(el[i].id)) {
 						ret.push(new VBPost(el[i]));
@@ -665,8 +667,28 @@
 			}
 		},
 
-		onKeyDown: function(event) {
+		popupSettings : function() {
+			var top = (parseInt(getCurrentYPos()) + (document.documentElement.clientHeight/2) - 100) + 'px';
+			var left = parseInt( Math.round((document.documentElement.clientWidth/2) - 200) ) + 'px';
+			var configLinkPreview = GM_getValue("KSA_LINK_PREVIEW", "true")?'checked':'';
+			VBPage.showPopup(left, top, "KSA Setting", '<input name="KSA_LINK_PREVIEW" type="checkbox" class="ksa_settings" '+configLinkPreview+'>Show Link Preview');
+			var el = getElement('.ksa_settings');
+			for(var i = 0; i < el.length; ++i) {
+				el[i].addEventListener('click', function() {
+					VBPage.saveConfig(this.getAttribute('name'), this.checked);
+				}, true);
+			}
+		},
+		
+		saveConfig : function(key, value) {
+			//alert(key + " " + value);
+			GM_setValue(key, value);
+		},
 
+		onKeyDown : function(event) {
+			if (event.keyCode == 65) {
+				VBPage.popupSettings();
+			}
 		},
 
 		setupKSA : function() {
@@ -685,25 +707,25 @@
 			getElement('body')[0].appendChild(this.popup);
 
 			// add button show all at top and bottom thread
-			this.imgShowAll = [];
-			var anchor = getElement('.//img[@alt="Reply" and @title="Reply"]');
-			for ( var i = 0; i < anchor.length; ++i) {
-				var showAll = document.createElement('img');
-				showAll.setAttribute('ksa-action', 'Show');
-				showAll.src = imgs.btShowAll;
-				showAll.addEventListener('click', function() {
-					var act = this.getAttribute('ksa-action');
-					VBPage.showAllClick(act);
-				}, false);
-				this.imgShowAll.push(showAll);
-				anchor[i].parentNode.parentNode.appendChild(showAll);
-			}
-
-			// add keyboard listener
-			window.addEventListener('keydown', function(e) {
-				VBPage.onKeyDown(e);
-			}, true);
+		this.imgShowAll = [];
+		var anchor = getElement('.//img[@alt="Reply" and @title="Reply"]');
+		for ( var i = 0; i < anchor.length; ++i) {
+			var showAll = document.createElement('img');
+			showAll.setAttribute('ksa-action', 'Show');
+			showAll.src = imgs.btShowAll;
+			showAll.addEventListener('click', function() {
+				var act = this.getAttribute('ksa-action');
+				VBPage.showAllClick(act);
+			}, false);
+			this.imgShowAll.push(showAll);
+			anchor[i].parentNode.parentNode.appendChild(showAll);
 		}
+
+		// add keyboard listener
+		window.addEventListener('keydown', function(e) {
+			VBPage.onKeyDown(e);
+		}, true);
+	}
 	};
 
 	script.checkUpdate();
