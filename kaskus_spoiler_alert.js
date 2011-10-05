@@ -5,10 +5,9 @@
 // @include        */showthread.php*
 // @include        */showpost.php*
 // @include        */group.php*
-// @version        2.1
+// @version        2.2
 // @author         arifhn
 // ==/UserScript==
-
 /**
  * 
  * This program is free software: you can redistribute it and/or modify it under
@@ -25,75 +24,104 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  * 
  * 
- * Changelog: ==========
+ * Changelog:
+ * ==========
+ * 
+ * 2.2
+ * - add settings for enable/disable link preview
+ * - add close button to popup box
  * 
  * 2.1 fix bug on Firefox 3.6.x
  * 
- * 2.0 - rewrite source code - support Firefox 6 - support IDWS
+ * 2.0
+ * - rewrite source code
+ * - support Firefox 6 - support IDWS
  * 
- * 1.20 add button 'Show All' at top & bottom thread. This button can show/hide
- * all spoiler in current page
+ * 1.20
+ * add button 'Show All' at top & bottom thread. 
+ * This button can show/hide all spoiler in current page
  * 
- * 1.19 - add browser support Firefox 5.x - add html tag id (now easy to
- * identify html tag created by KSA)
+ * 1.19
+ *  - add browser support Firefox 5.x
+ *  - add html tag id (now easy to identify html tag created by KSA)
  * 
- * 1.18 fix bug: hidden link not detected if bbcode contains space/text between
- * URL and SPOILER bbcode [URL=http://www.foo.com/#] extra space
- * [SPOILER=bar]lol[/SPOILER][/URL] thanks to tuxie.forte
+ * 1.18
+ * fix bug: hidden link not detected if bbcode contains space/text between
+ * URL and SPOILER, sample bbcode:
+ * [URL=http://www.foo.com/#] extra space
+ * [SPOILER=bar]lol[/SPOILER][/URL]
+ * thanks to tuxie.forte
  * 
- * 1.17 add new feature: preview URL (title + original link)
+ * 1.17
+ * add new feature: preview URL (title + original link)
  * 
- * 1.16 add browser support Firefox 4.x
+ * 1.16
+ * add browser support Firefox 4.x
  * 
- * 1.15 - support any standard vbulletin forum (tested on kaskus.us,
- * indoforum.org) - change all warning messages to english - add script update
- * notification
+ * 1.15
+ * - support any standard vbulletin forum (tested on kaskus.us, indoforum.org)
+ * - change all warning messages to english - add script update notification
  * 
- * 1.14 support google chrome
+ * 1.14
+ * support google chrome
  * 
- * 1.13 add http://www.kaskus.us/group.php* to
+ * 1.13
+ * add http://www.kaskus.us/group.php* to @include and
+ * change the script to support it
  * 
- * @include and change the script to support it
+ * 1.12
+ * fix bug: link alert (too sensitive, now only check domain name)
  * 
- * 1.12 fix bug: link alert (too sensitive, now only check domain name)
+ * 1.11
+ * - scroll page to closed spoiler after 'Hide All' clicked
+ * - hide button Show/Hide All if post contains 1 spoiler
+ * - add new feature: fake link alert (show info if link text not equal to
+ *   link url)
  * 
- * 1.11 - scroll page to closed spoiler after 'Hide All' clicked - hide button
- * Show/Hide All if post contains 1 spoiler - add new feature: fake link alert
- * (show info if link text not equal to link url)
+ * 1.10
+ * add http://www.kaskus.us/showpost.php* to @include,
+ * thanks to hermawanadhis
  * 
- * 1.10 add http://www.kaskus.us/showpost.php* to
- * @include, thanks to hermawanadhis
- * 
- * 1.9 revert back to 1.7 design with two button ('Show All' and 'Show') and
+ * 1.9
+ * revert back to 1.7 design with two button ('Show All' and 'Show') and
  * remove the popup menu
  * 
- * 1.8 - move 'Show All' and 'Show Children' button into popup menu - fixed bug:
- * button label 'Show'/'Hide'
+ * 1.8
+ * - move 'Show All' and 'Show Children' button into popup menu
+ * - fixed bug: button label 'Show'/'Hide'
  * 
- * 1.7 - change button 'Show All' -> 'Show Children' (open/close child spoiler) -
- * add button 'Show All' (open/close all spoilers)
+ * 1.7
+ * - change button 'Show All' -> 'Show Children' (open/close child spoiler)
+ * - add button 'Show All' (open/close all spoilers)
  * 
- * 1.6 add button 'Show All' to open/close all child spoiler
+ * 1.6
+ * add button 'Show All' to open/close all child spoiler
  * 
- * 1.5 exclude kaskus smiley from picture counter
+ * 1.5
+ * exclude kaskus smiley from picture counter
  * 
- * 1.4 add new feature: show how many picture and spoiler inside spoiler
+ * 1.4
+ * add new feature: show how many picture and spoiler inside spoiler
  * 
- * 1.3 rewrite link detection thanks to "p1nk3d_books"
+ * 1.3
+ * rewrite link detection thanks to "p1nk3d_books"
  * 
- * 1.2 fixed bug, hidden link not detected if font color changed thanks to
+ * 1.2
+ * fixed bug, hidden link not detected if font color changed thanks to
  * "p1nk3d_books"
  * 
- * 1.1 remove link from spoiler and show the hidden link thanks to "firo sXe"
+ * 1.1
+ * remove link from spoiler and show the hidden link thanks to "firo sXe"
  * (kaskusid 650045)
  * 
- * 1.0 first release
+ * 1.0
+ * first release
  * 
  */
 (function() {
 	var script = {
 		srcurl : 'http://userscripts.org/scripts/source/73498.user.js',
-		version : '2.1',
+		version : '2.2',
 		metaurl : 'http://userscripts.org/scripts/source/73498.meta.js',
 
 		checkUpdate : function() {
@@ -293,7 +321,7 @@
 						this.vbLink.contentTitle = 'Error';
 						this.vbLink.contentURL = 'Invalid or blocked URL';
 						VBPage.showPopup(left, top, this.vbLink.contentTitle,
-								this.vbLink.contentURL);
+								this.vbLink.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Shift+S for setting)</font>');
 					},
 					onload : function(rsp) {
 						if (rsp.status == 200) {
@@ -309,11 +337,11 @@
 							this.vbLink.contentURL = 'Invalid or blocked URL';
 						}
 						VBPage.showPopup(left, top, this.vbLink.contentTitle,
-								this.vbLink.contentURL);
+								this.vbLink.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Shift+S for setting)</font>');
 					}
 				});
 			} else {
-				VBPage.showPopup(left, top, this.contentTitle, this.contentURL);
+				VBPage.showPopup(left, top, this.contentTitle, this.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Shift+S for setting)</font>');
 			}
 		};
 
@@ -671,7 +699,7 @@
 			var top = (parseInt(getCurrentYPos()) + (document.documentElement.clientHeight/2) - 100) + 'px';
 			var left = parseInt( Math.round((document.documentElement.clientWidth/2) - 200) ) + 'px';
 			var configLinkPreview = GM_getValue("KSA_LINK_PREVIEW", "true")?'checked':'';
-			VBPage.showPopup(left, top, "KSA Setting", '<input name="KSA_LINK_PREVIEW" type="checkbox" class="ksa_settings" '+configLinkPreview+'>Show Link Preview');
+			VBPage.showPopup(left, top, "KSA Setting", '<input name="KSA_LINK_PREVIEW" type="checkbox" class="ksa_settings" '+configLinkPreview+'>Show Link Preview<br/><br/><font color="red">*refresh page after change settings</font>');
 			var el = getElement('.ksa_settings');
 			for(var i = 0; i < el.length; ++i) {
 				el[i].addEventListener('click', function() {
@@ -686,7 +714,8 @@
 		},
 
 		onKeyDown : function(event) {
-			if (event.keyCode == 65) {
+			// Shift+S
+			if (event.shiftKey && event.keyCode == 83) {
 				VBPage.popupSettings();
 			}
 		},
