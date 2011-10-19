@@ -5,7 +5,7 @@
 // @include        */showthread.php*
 // @include        */showpost.php*
 // @include        */group.php*
-// @version        2.2
+// @version        2.3
 // @author         arifhn
 // ==/UserScript==
 /**
@@ -26,6 +26,10 @@
  * 
  * Changelog:
  * ==========
+ * 
+ * 2.3
+ * - change shortcut for setting, now use Ctrl+Alt+S
+ * - fix update notification
  * 
  * 2.2
  * - add settings for enable/disable link preview
@@ -121,7 +125,7 @@
 (function() {
 	var script = {
 		srcurl : 'http://userscripts.org/scripts/source/73498.user.js',
-		version : '2.2',
+		version : '2.3',
 		metaurl : 'http://userscripts.org/scripts/source/73498.meta.js',
 
 		checkUpdate : function() {
@@ -141,7 +145,7 @@
 										+ onlineVersion
 										+ ", do you want to update?");
 								if (c) {
-									window.location.href = srcurl;
+									window.location.href = script.srcurl;
 								}
 							}
 						}
@@ -321,7 +325,7 @@
 						this.vbLink.contentTitle = 'Error';
 						this.vbLink.contentURL = 'Invalid or blocked URL';
 						VBPage.showPopup(left, top, this.vbLink.contentTitle,
-								this.vbLink.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Shift+S for setting)</font>');
+								this.vbLink.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Ctrl+Alt+S for setting)</font>');
 					},
 					onload : function(rsp) {
 						if (rsp.status == 200) {
@@ -337,11 +341,11 @@
 							this.vbLink.contentURL = 'Invalid or blocked URL';
 						}
 						VBPage.showPopup(left, top, this.vbLink.contentTitle,
-								this.vbLink.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Shift+S for setting)</font>');
+								this.vbLink.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Ctrl+Alt+S for setting)</font>');
 					}
 				});
 			} else {
-				VBPage.showPopup(left, top, this.contentTitle, this.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Shift+S for setting)</font>');
+				VBPage.showPopup(left, top, this.contentTitle, this.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Ctrl+Alt+S for setting)</font>');
 			}
 		};
 
@@ -714,8 +718,8 @@
 		},
 
 		onKeyDown : function(event) {
-			// Shift+S
-			if (event.shiftKey && event.keyCode == 83) {
+			// Ctrl+Alt+S
+			if (event.ctrlKey && event.altKey && event.keyCode == 83) {
 				VBPage.popupSettings();
 			}
 		},
