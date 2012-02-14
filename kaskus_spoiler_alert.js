@@ -5,6 +5,9 @@
 // @include        */showthread.php*
 // @include        */showpost.php*
 // @include        */group.php*
+// @include        *.kaskus.us/thread/*
+// @include        *.kaskus.us/post/*
+// @include        *.kaskus.us/show_post/*
 // @version        2.3
 // @author         arifhn
 // ==/UserScript==
@@ -565,7 +568,7 @@
 		this.getSpoilers = function() {
 			var ret = [];
 			var el = getElement(
-					'.//div[contains(@style,"margin:")]//input[@type="button" and @value="Show"]',
+					'.//div[contains(@style,"margin")]//input[@type="button" and @value="Show"]',
 					this.element);
 			for ( var i = 0; i < el.length; ++i) {
 				var sp = el[i].parentNode.parentNode;
