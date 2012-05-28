@@ -5,10 +5,10 @@
 // @include        */showthread.php*
 // @include        */showpost.php*
 // @include        */group.php*
-// @include        *.kaskus.us/thread/*
-// @include        *.kaskus.us/post/*
-// @include        *.kaskus.us/show_post/*
-// @version        2.3
+// @include        *.kaskus.*/thread/*
+// @include        *.kaskus.*/post/*
+// @include        *.kaskus.*/show_post/*
+// @version        2.4
 // @author         arifhn
 // ==/UserScript==
 /**
@@ -29,6 +29,9 @@
  * 
  * Changelog:
  * ==========
+ * 
+ * 2.4
+ * - support livebeta.kaskus.us
  * 
  * 2.3
  * - change shortcut for setting, now use Ctrl+Alt+S
@@ -128,7 +131,7 @@
 (function() {
 	var script = {
 		srcurl : 'http://userscripts.org/scripts/source/73498.user.js',
-		version : '2.3',
+		version : '2.4',
 		metaurl : 'http://userscripts.org/scripts/source/73498.meta.js',
 
 		checkUpdate : function() {
