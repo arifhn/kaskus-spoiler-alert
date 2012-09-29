@@ -486,6 +486,7 @@
 			this.btShow.vbSpoiler = this;
 			this.btShow.setAttribute('spoilerid', this.id);
 			this.btShow.removeAttribute('onclick');
+			this.btShow.setAttribute('style', 'margin: 2px; font-size: 10px; padding: 2px; width: 60px !important');
 			this.btShow.addEventListener('click', function() {
 				if (this.vbSpoiler) {
 					this.vbSpoiler.showClick(this.value);
@@ -500,8 +501,7 @@
 			this.btShowAll.value = "Show All";
 			this.btShowAll.type = 'button';
 			this.btShowAll.title = 'Show/Hide all spoilers';
-			this.btShowAll.style.margin = '2px';
-			this.btShowAll.style.fontSize = '10px';
+			this.btShowAll.setAttribute('style', 'margin: 2px; font-size: 10px; padding: 2px; width: 60px !important');
 			this.btShowAll.vbPost = this.vbPost;
 			this.btShowAll.setAttribute('postid', this.vbPost.id);
 			this.btShowAll.addEventListener('click', function() {
