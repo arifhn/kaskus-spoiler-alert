@@ -8,7 +8,7 @@
 // @include        *.kaskus.*/thread/*
 // @include        *.kaskus.*/post/*
 // @include        *.kaskus.*/show_post/*
-// @version        2.4
+// @version        2.5
 // @author         arifhn
 // ==/UserScript==
 /**
@@ -30,6 +30,9 @@
  * Changelog:
  * ==========
  * 
+ * 2.5
+ * - fix button width on kaskus beta
+ *  
  * 2.4
  * - support livebeta.kaskus.us
  * 
@@ -131,7 +134,7 @@
 (function() {
 	var script = {
 		srcurl : 'http://userscripts.org/scripts/source/73498.user.js',
-		version : '2.4',
+		version : '2.5',
 		metaurl : 'http://userscripts.org/scripts/source/73498.meta.js',
 
 		checkUpdate : function() {
