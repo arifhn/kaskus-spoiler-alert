@@ -1,16 +1,16 @@
-//==UserScript==
-//@name           Kaskus Spoiler Alert
-//@namespace      http://userscripts.org/scripts/show/73498
-//@description    add a warning message when a spoiler contains hidden link
-//@include        */showthread.php*
-//@include        */showpost.php*
-//@include        */group.php*
-//@include        *.kaskus.*/thread/*
-//@include        *.kaskus.*/post/*
-//@include        *.kaskus.*/show_post/*
-//@version        2.6
-//@author         arifhn
-//==/UserScript==
+// ==UserScript==
+// @name           Kaskus Spoiler Alert
+// @namespace      http://userscripts.org/scripts/show/73498
+// @description    add a warning message when a spoiler contains hidden link
+// @include        */showthread.php*
+// @include        */showpost.php*
+// @include        */group.php*
+// @include        *.kaskus.*/thread/*
+// @include        *.kaskus.*/post/*
+// @include        *.kaskus.*/show_post/*
+// @version        2.6
+// @author         arifhn
+// ==/UserScript==
 /**
  * 
  * This program is free software: you can redistribute it and/or modify it under
