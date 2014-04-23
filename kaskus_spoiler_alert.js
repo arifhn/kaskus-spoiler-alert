@@ -2,12 +2,10 @@
 // @name           Kaskus Spoiler Alert
 // @namespace      http://userscripts.org/scripts/show/73498
 // @description    add a warning message when a spoiler contains hidden link
-// @include        */showthread.php*
-// @include        */showpost.php*
-// @include        */group.php*
 // @include        *.kaskus.*/thread/*
 // @include        *.kaskus.*/post/*
 // @include        *.kaskus.*/show_post/*
+// @include        *.kaskus.*/group/discussion/*
 // @version        2.61
 // @author         arifhn
 // ==/UserScript==
@@ -660,11 +658,12 @@
 	var VBPage = {
 			getPosts : function() {
 				var ret = [];
-
-				if (URL.filename(location.href) == 'group.php') {
-					var el = getElement('.//*[starts-with(@id,"gmessage_text")]');
+				if (location.href.contains('/group/discussion/')) {
+					var el = getElement('.//section[@id="xxxxx-postNumberHere"]');
 					for ( var i = 0; i < el.length; ++i) {
-						ret.push(new VBPost(el[i]));
+						var p = el[i].parentNode.parentNode;
+						p.id = 'post_' + i;
+						ret.push(new VBPost(p));
 					}
 				} else {
 					var el = getElement('.//*[starts-with(@id,"post")]');
@@ -725,10 +724,10 @@
 				}
 				if(str == 'Show') {
 					item.setAttribute('ksa-action', 'Hide');
-					item.innerHTML = '<i class="icon-chevron-right"></i> Hide all spoiler';
+					item.innerHTML = '<i class="icon-chevron-right"></i> KSA - Hide all spoiler';
 				}else {
 					item.setAttribute('ksa-action', 'Show');
-					item.innerHTML = '<i class="icon-chevron-right"></i> Show all spoiler';				
+					item.innerHTML = '<i class="icon-chevron-right"></i> KSA - Show all spoiler';				
 				}
 			},
 
@@ -777,7 +776,7 @@
 				getElement('body')[0].appendChild(this.popup);
 
 				// setup show all spoiler
-				this.addThreadTools(' Show all spoiler', 'icon-chevron-right', function() {
+				this.addThreadTools(' KSA - Show all spoiler', 'icon-chevron-right', function() {
 					VBPage.showAllClick(this);
 					VBPage.closeThreadTools();
 				});
