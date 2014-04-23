@@ -213,12 +213,6 @@
 	 * if(unsafeWindow.frameElement != null) return; } catch(e) {}
 	 */
 
-	// setup images array
-	var imgs = {
-			btShowAll : 'data:image/gif;base64,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',
-			btHideAll : 'data:image/gif;base64,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'
-	};
-
 	var URL = {
 			// Returns the filename component of the path
 			// + original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
@@ -721,18 +715,20 @@
 				this.popup.style.display = 'none';
 			},
 
-			showAllClick : function(str) {
+			showAllClick : function(item) {
+				var str = item.getAttribute('ksa-action');
+				if(str == null) {
+					str = 'Show';
+				}
 				for ( var i = 0; i < this.posts.length; ++i) {
 					this.posts[i].showAllClick(str);
 				}
-				for ( var i = 0; i < this.imgShowAll.length; ++i) {
-					if (str == 'Show') {
-						this.imgShowAll[i].setAttribute('ksa-action', 'Hide');
-						this.imgShowAll[i].src = imgs.btHideAll;
-					} else {
-						this.imgShowAll[i].setAttribute('ksa-action', 'Show');
-						this.imgShowAll[i].src = imgs.btShowAll;
-					}
+				if(str == 'Show') {
+					item.setAttribute('ksa-action', 'Hide');
+					item.innerHTML = '<i class="icon-chevron-right"></i> Hide all spoiler';
+				}else {
+					item.setAttribute('ksa-action', 'Show');
+					item.innerHTML = '<i class="icon-chevron-right"></i> Show all spoiler';				
 				}
 			},
 
@@ -756,6 +752,17 @@
 				}
 			},
 
+			addThreadTools : function(title, icon, callback) {
+				var dropdown = getElement('.//div[@class="dropdown-menu"]//ul')[0];
+				var item = document.createElement('li');
+				var link = document.createElement('a');
+				link.href = '#';
+				link.innerHTML = '<i class="'+icon+'"></i>'+title;
+				link.addEventListener('click', callback);
+				item.appendChild(link);
+				dropdown.appendChild(item);
+			},
+			
 			setupKSA : function() {
 				this.posts = this.getPosts();
 				for ( var i = 0; i < this.posts.length; ++i) {
@@ -771,21 +778,12 @@
 				this.popup.style.backgroundColor = '#eeeeee';
 				getElement('body')[0].appendChild(this.popup);
 
-				// add button show all at top and bottom thread
-				this.imgShowAll = [];
-				var anchor = getElement('.//img[@alt="Reply" and @title="Reply"]');
-				for ( var i = 0; i < anchor.length; ++i) {
-					var showAll = document.createElement('img');
-					showAll.setAttribute('ksa-action', 'Show');
-					showAll.src = imgs.btShowAll;
-					showAll.addEventListener('click', function() {
-						var act = this.getAttribute('ksa-action');
-						VBPage.showAllClick(act);
-					}, false);
-					this.imgShowAll.push(showAll);
-					anchor[i].parentNode.parentNode.appendChild(showAll);
-				}
-
+				// setup show all spoiler
+				this.addThreadTools(' Show all spoiler', 'icon-chevron-right', function() {
+					VBPage.showAllClick(this);
+					getElement('.//div[contains(@class,"tools-panel dropdown")]')[0].setAttribute('class','tools-panel dropdown');
+				});
+				
 				// add keyboard listener
 				window.addEventListener('keydown', function(e) {
 					VBPage.onKeyDown(e);
