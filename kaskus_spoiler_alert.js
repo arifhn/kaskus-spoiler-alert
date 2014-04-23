@@ -748,10 +748,21 @@
 			onKeyDown : function(event) {
 				// Ctrl+Alt+S
 				if (event.ctrlKey && event.altKey && event.keyCode == 83) {
-					VBPage.popupSettings();
+					VBPage.openThreadTools();
 				}
 			},
 
+			// because we only have one setting item then we use 'Thread Tools' menu for it
+			openThreadTools : function() {
+				var threadtools = getElement('.//div[contains(@class,"tools-panel dropdown")]')[0];
+				threadtools.setAttribute('class','tools-panel dropdown open');
+				document.documentElement.scrollTop = 0;
+			},
+			
+			closeThreadTools : function() {
+				getElement('.//div[contains(@class,"tools-panel dropdown")]')[0].setAttribute('class','tools-panel dropdown');
+			},
+			
 			addThreadTools : function(title, icon, callback) {
 				var dropdown = getElement('.//div[@class="dropdown-menu"]//ul')[0];
 				var item = document.createElement('li');
@@ -781,7 +792,19 @@
 				// setup show all spoiler
 				this.addThreadTools(' Show all spoiler', 'icon-chevron-right', function() {
 					VBPage.showAllClick(this);
-					getElement('.//div[contains(@class,"tools-panel dropdown")]')[0].setAttribute('class','tools-panel dropdown');
+					VBPage.closeThreadTools();
+				});
+				
+				// add link preview setting to 'Thread Tools'
+				var configLinkPreview = script.getValue("KSA_LINK_PREVIEW", 'true') == 'true'?' KSA - Hide link preview':' KSA - Show link preview';
+				this.addThreadTools(configLinkPreview, 'icon-chevron-right', function() {
+					var config = script.getValue("KSA_LINK_PREVIEW", 'true');
+					if(config == 'true') {
+						script.putValue("KSA_LINK_PREVIEW", 'false');
+					}else {
+						script.putValue("KSA_LINK_PREVIEW", 'true');
+					}
+					location.reload();
 				});
 				
 				// add keyboard listener
@@ -790,7 +813,7 @@
 				}, true);
 				
 				if(GM_registerMenuCommand != 'undefined') {
-					GM_registerMenuCommand("KSA Setting", VBPage.popupSettings);
+					GM_registerMenuCommand("KSA Setting", VBPage.openThreadTools);
 				}
 			}
 	};
