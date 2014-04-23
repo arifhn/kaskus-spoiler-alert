@@ -615,7 +615,7 @@
 
 		this.getLinks = function() {
 			var ret = [];
-			var el = getElement('.//a', this.element);
+			var el = getElement('.//div[@class="entry"]//a', this.element);
 			for ( var i = 0; i < el.length; ++i) {
 				var l = el[i];
 				ret.push(new VBLink(l, this, i));
