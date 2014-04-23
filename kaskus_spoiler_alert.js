@@ -509,9 +509,13 @@
 					'.//div[contains(@id,"KSA-spoiler-")]', this.element).length;
 
 			// get button Show
-			this.btShow = getElement(
+			var btShowOri = getElement(
 					'.//input[@type="button" and @value="Show"]', this.element,
 					true);
+			btShowOri.removeAttribute('onclick');
+			this.btShow = btShowOri.cloneNode(true);
+			btShowOri.parentNode.replaceChild(this.btShow, btShowOri);
+			
 			this.btShow.vbSpoiler = this;
 			this.btShow.setAttribute('spoilerid', this.id);
 			this.btShow.removeAttribute('onclick');
@@ -599,11 +603,9 @@
 		// return all spoilers in this post
 		this.getSpoilers = function() {
 			var ret = [];
-			var el = getElement(
-					'.//div[contains(@style,"margin")]//input[@type="button" and @value="Show"]',
-					this.element);
+			var el = getElement('.//div[@class="spoiler"]', this.element);
 			for ( var i = 0; i < el.length; ++i) {
-				var sp = el[i].parentNode.parentNode;
+				var sp = el[i];
 				ret.push(new VBSpoiler(sp, this, i));
 			}
 			return ret;
