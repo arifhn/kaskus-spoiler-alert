@@ -8,7 +8,7 @@
 // @include        *.kaskus.*/thread/*
 // @include        *.kaskus.*/post/*
 // @include        *.kaskus.*/show_post/*
-// @version        2.6
+// @version        2.61
 // @author         arifhn
 // ==/UserScript==
 /**
@@ -138,7 +138,7 @@
 (function() {
 	var script = {
 			srcurl : 'http://userscripts.org/scripts/source/73498.user.js',
-			version : '2.6',
+			version : '2.61',
 			metaurl : 'http://userscripts.org/scripts/source/73498.meta.js',
 
 			checkUpdate : function() {
