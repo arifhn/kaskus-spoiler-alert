@@ -732,19 +732,6 @@
 				}
 			},
 
-			popupSettings : function() {
-				var top = (parseInt(getCurrentYPos()) + (document.documentElement.clientHeight/2) - 100) + 'px';
-				var left = parseInt( Math.round((document.documentElement.clientWidth/2) - 200) ) + 'px';
-				var configLinkPreview = script.getValue("KSA_LINK_PREVIEW", 'true') == 'true'?'checked':'';
-				VBPage.showPopup(left, top, "KSA Setting", '<input name="KSA_LINK_PREVIEW" type="checkbox" class="ksa_settings" '+configLinkPreview+'>Show Link Preview<br/><br/><font color="red">*refresh page after change settings</font>');
-				var el = getElement('.ksa_settings');
-				for(var i = 0; i < el.length; ++i) {
-					el[i].addEventListener('click', function() {
-						script.putValue(this.getAttribute('name'), this.checked);
-					}, true);
-				}
-			},
-
 			onKeyDown : function(event) {
 				// Ctrl+Alt+S
 				if (event.ctrlKey && event.altKey && event.keyCode == 83) {
