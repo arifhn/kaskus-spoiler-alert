@@ -354,7 +354,7 @@
 						this.vbLink.contentTitle = 'Error';
 						this.vbLink.contentURL = 'Invalid or blocked URL';
 						VBPage.showPopup(left, top, this.vbLink.contentTitle,
-								this.vbLink.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Ctrl+Alt+S for setting)</font>');
+								this.vbLink.contentURL + '<br/><br/><font color="red">You can disable this popup in Thread Tools menu</font>');
 					},
 					onload : function(rsp) {
 						if (rsp.status == 200) {
@@ -370,11 +370,11 @@
 							this.vbLink.contentURL = 'Invalid or blocked URL';
 						}
 						VBPage.showPopup(left, top, this.vbLink.contentTitle,
-								this.vbLink.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Ctrl+Alt+S for setting)</font>');
+								this.vbLink.contentURL + '<br/><br/><font color="red">You can disable this popup in Thread Tools menu</font>');
 					}
 				});
 			} else {
-				VBPage.showPopup(left, top, this.contentTitle, this.contentURL + '<br/><br/><font color="red">Now you can enable/disable this feature (press Ctrl+Alt+S for setting)</font>');
+				VBPage.showPopup(left, top, this.contentTitle, this.contentURL + '<br/><br/><font color="red">You can disable this popup in Thread Tools menu</font>');
 			}
 		};
 
