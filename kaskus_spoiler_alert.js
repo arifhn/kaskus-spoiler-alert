@@ -6,7 +6,7 @@
 // @include        *.kaskus.*/post/*
 // @include        *.kaskus.*/show_post/*
 // @include        *.kaskus.*/group/discussion/*
-// @version        2.61
+// @version        2.62
 // @author         arifhn
 // ==/UserScript==
 /**
@@ -31,6 +31,8 @@
  * 2.6
  * - fix new kaskus
  * - add setting key into greasemonkey/tampermonkey menu
+ * - add 'Show All' menu to 'Thread Tools'
+ * - fix group page
  * 
  * 2.5
  * - fix button width on kaskus beta
@@ -136,7 +138,7 @@
 (function() {
 	var script = {
 			srcurl : 'http://userscripts.org/scripts/source/73498.user.js',
-			version : '2.61',
+			version : '2.62',
 			metaurl : 'http://userscripts.org/scripts/source/73498.meta.js',
 
 			checkUpdate : function() {
