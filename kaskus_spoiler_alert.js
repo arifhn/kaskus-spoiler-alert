@@ -6,7 +6,7 @@
 // @include        *.kaskus.*/post/*
 // @include        *.kaskus.*/show_post/*
 // @include        *.kaskus.*/group/discussion/*
-// @version        2.62
+// @version        2.63
 // @author         arifhn
 // ==/UserScript==
 /**
@@ -137,40 +137,6 @@
  */
 (function() {
 	var script = {
-			srcurl : 'http://userscripts.org/scripts/source/73498.user.js',
-			version : '2.62',
-			metaurl : 'http://userscripts.org/scripts/source/73498.meta.js',
-
-			checkUpdate : function() {
-				// 12 hour = (12 hour * 60 * 60 * 1000 ms)
-				var interval = 1000 * 60 * 60 * 12;
-				var lastCheck = parseInt(script.getValue("KASKUS_SPA_LAST_CHECK", "0"));
-				if (lastCheck + interval <= new Date().getTime()) {
-					GM_xmlhttpRequest( {
-						method : 'GET',
-						url : script.metaurl,
-						onload : function(response) {
-							if (response.status == 200) {
-								var onlineVersion = response.responseText
-								.match(/@version(?:[^\d]+)([\d\.]+)/)[1];
-								if (parseFloat(onlineVersion) > parseFloat(script.version)) {
-									var c = confirm("Kaskus Spoiler Alert released a new version "
-											+ onlineVersion
-											+ ", do you want to update?");
-									if (c) {
-										window.location.href = script.srcurl;
-									}
-								}
-							}
-							script.putValue("KASKUS_SPA_LAST_CHECK", new Date()
-							.getTime()
-							+ "");
-						}
-					});
-				}
-			},
-
-
 			putValue: function(key, value) {
 				if(typeof window.localStorage != 'undefined') {
 					localStorage[key] = value;
@@ -806,6 +772,5 @@
 			}
 	};
 
-	script.checkUpdate();
 	VBPage.setupKSA();
 })();
