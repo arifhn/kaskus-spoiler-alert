@@ -6,8 +6,10 @@
 // @include        *.kaskus.*/post/*
 // @include        *.kaskus.*/show_post/*
 // @include        *.kaskus.*/group/discussion/*
-// @version        2.63
+// @version        2.64
 // @author         arifhn
+// @grant          GM_xmlhttpRequest
+// @grant          GM_registerMenuCommand
 // ==/UserScript==
 /**
  * 
@@ -690,12 +692,15 @@
 				for ( var i = 0; i < this.posts.length; ++i) {
 					this.posts[i].showAllClick(str);
 				}
-				if(str == 'Show') {
-					item.setAttribute('ksa-action', 'Hide');
-					item.innerHTML = '<i class="icon-chevron-right"></i> KSA - Hide all spoiler';
-				}else {
-					item.setAttribute('ksa-action', 'Show');
-					item.innerHTML = '<i class="icon-chevron-right"></i> KSA - Show all spoiler';				
+				var items = getElement('.//a[@ksa-tools-id="ksa-all-spoiler"]');
+				for(var i = 0; i < items.length; ++i) {
+					if(str == 'Show') {
+						items[i].setAttribute('ksa-action', 'Hide');
+						items[i].innerHTML = '<i class="fa fa-caret-down"></i> KSA - Hide all spoiler';
+					}else {
+						items[i].setAttribute('ksa-action', 'Show');
+						items[i].innerHTML = '<i class="fa fa-caret-down"></i> KSA - Show all spoiler';				
+					}
 				}
 			},
 
@@ -709,23 +714,28 @@
 			// because we only have one setting item then we use 'Thread Tools' menu for it
 			openThreadTools : function() {
 				var threadtools = getElement('.//div[contains(@class,"tools-panel dropdown")]')[0];
-				threadtools.setAttribute('class','tools-panel dropdown open');
+				threadtools.setAttribute('class', threadtools.getAttribute('class') + ' open');
 				document.documentElement.scrollTop = 0;
 			},
 			
 			closeThreadTools : function() {
-				getElement('.//div[contains(@class,"tools-panel dropdown")]')[0].setAttribute('class','tools-panel dropdown');
+				var threadtools = getElement('.//div[contains(@class,"tools-panel dropdown open")]')[0];
+				attr = threadtools.getAttribute('class');
+				threadtools.setAttribute('class',attr.substring(0, attr.length - 5));
 			},
 			
-			addThreadTools : function(title, icon, callback) {
-				var dropdown = getElement('.//div[@class="dropdown-menu"]//ul')[0];
-				var item = document.createElement('li');
-				var link = document.createElement('a');
-				link.href = '#';
-				link.innerHTML = '<i class="'+icon+'"></i>'+title;
-				link.addEventListener('click', callback);
-				item.appendChild(link);
-				dropdown.appendChild(item);
+			addThreadTools : function(title, icon, id, callback) {
+				var dropdown = getElement('.//ul[@aria-labelledby="thread-tools"]');
+				for(var i = 0; i < dropdown.length; ++i) {
+					var item = document.createElement('li');
+					var link = document.createElement('a');
+					link.href = '#';
+					link.innerHTML = '<i class="fa '+icon+'"></i>'+title;
+					link.addEventListener('click', callback);
+					link.setAttribute('ksa-tools-id', id);
+					item.appendChild(link);
+					dropdown[i].appendChild(item);
+				}
 			},
 			
 			setupKSA : function() {
@@ -744,14 +754,14 @@
 				getElement('body')[0].appendChild(this.popup);
 
 				// setup show all spoiler
-				this.addThreadTools(' KSA - Show all spoiler', 'icon-chevron-right', function() {
+				this.addThreadTools(' KSA - Show all spoiler', 'fa-caret-down', 'ksa-all-spoiler', function() {
 					VBPage.showAllClick(this);
 					VBPage.closeThreadTools();
 				});
 				
 				// add link preview setting to 'Thread Tools'
 				var configLinkPreview = script.getValue("KSA_LINK_PREVIEW", 'true') == 'true'?' KSA - Hide link preview':' KSA - Show link preview';
-				this.addThreadTools(configLinkPreview, 'icon-chevron-right', function() {
+				this.addThreadTools(configLinkPreview, 'fa-gear', 'ksa-link-preview', function() {
 					var config = script.getValue("KSA_LINK_PREVIEW", 'true');
 					if(config == 'true') {
 						script.putValue("KSA_LINK_PREVIEW", 'false');
