@@ -6,7 +6,7 @@
 // @include        *.kaskus.*/post/*
 // @include        *.kaskus.*/show_post/*
 // @include        *.kaskus.*/group/discussion/*
-// @version        2.64
+// @version        2.65
 // @author         arifhn
 // @grant          GM_xmlhttpRequest
 // @grant          GM_registerMenuCommand
