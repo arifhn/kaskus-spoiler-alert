@@ -708,7 +708,7 @@
 						items[i].innerHTML = '<i class="fa fa-caret-down"></i> KSA - Hide all spoiler';
 					}else {
 						items[i].setAttribute('ksa-action', 'Show');
-						items[i].innerHTML = '<i class="fa fa-caret-down"></i> KSA - Show all spoiler';				
+						items[i].innerHTML = '<i class="fa fa-caret-down"></i> KSA - Show all spoiler';
 					}
 				}
 			},
@@ -722,28 +722,47 @@
 
 			// because we only have one setting item then we use 'Thread Tools' menu for it
 			openThreadTools : function() {
-				var threadtools = getElement('.//div[contains(@class,"tools-panel dropdown")]')[0];
-				threadtools.setAttribute('class', threadtools.getAttribute('class') + ' open');
-				document.documentElement.scrollTop = 0;
+				var threadtools = getElement('.//div[contains(@class,"tools-panel dropdown")]', null, true);
+				if(threadtools) {
+					threadtools.setAttribute('class', threadtools.getAttribute('class') + ' open');
+					document.documentElement.scrollTop = 0;
+				}
 			},
 			
 			closeThreadTools : function() {
-				var threadtools = getElement('.//div[contains(@class,"tools-panel dropdown open")]')[0];
-				attr = threadtools.getAttribute('class');
-				threadtools.setAttribute('class',attr.substring(0, attr.length - 5));
+				var threadtools = getElement('.//div[contains(@class,"tools-panel dropdown open")]', null, true);
+				if(threadtools) {
+					attr = threadtools.getAttribute('class');
+					threadtools.setAttribute('class',attr.substring(0, attr.length - 5));
+				}
 			},
 			
 			addThreadTools : function(title, icon, id, callback) {
 				var dropdown = getElement('.//ul[@aria-labelledby="thread-tools"]');
-				for(var i = 0; i < dropdown.length; ++i) {
-					var item = document.createElement('li');
+				if(dropdown && dropdown.length > 0) {
+					for(var i = 0; i < dropdown.length; ++i) {
+						var item = document.createElement('li');
+						var link = document.createElement('a');
+						link.href = '#';
+						link.innerHTML = '<i class="fa '+icon+'"></i>'+title;
+						link.addEventListener('click', callback);
+						link.setAttribute('ksa-tools-id', id);
+						item.appendChild(link);
+						dropdown[i].appendChild(item);
+					}
+				}else {
+					// try to set mobile site layout
+					var tools = getElement('.//div[@class="tools"]', null, true);
+					var item = document.createElement('span');
+					item.setAttribute('class', 'p-right');
+					item.innerHTML = '&nbsp;|&nbsp;';
 					var link = document.createElement('a');
 					link.href = '#';
 					link.innerHTML = '<i class="fa '+icon+'"></i>'+title;
 					link.addEventListener('click', callback);
 					link.setAttribute('ksa-tools-id', id);
-					item.appendChild(link);
-					dropdown[i].appendChild(item);
+					item.insertBefore(link, item.firstChild);
+					tools.appendChild(item);
 				}
 			},
 			
