@@ -434,7 +434,7 @@
 		this.element = el;
 		this.vbPost = parent;
 		this.content = getElement(
-				'.//div//div[starts-with(@style,"display:")]', el, true);
+				'.//div//div[starts-with(@class,"content_spoiler")]', el, true);
 
 		// check wether this is top spoiler in current post
 		this.isTopSpoiler = function() {
@@ -474,10 +474,19 @@
 			var btShowOri = getElement(
 					'.//input[@type="button" and @value="Show"]', this.element,
 					true);
-			btShowOri.removeAttribute('onclick');
-			this.btShow = btShowOri.cloneNode(true);
-			btShowOri.parentNode.replaceChild(this.btShow, btShowOri);
-			
+			if(btShowOri) {
+				btShowOri.removeAttribute('onclick');
+				this.btShow = btShowOri.cloneNode(true);
+				btShowOri.parentNode.replaceChild(this.btShow, btShowOri);
+			}else {
+				var div = getElement('.//div[@class="smallfont"]', this.element, true);
+				this.btShow = document.createElement('input');
+				this.btShow.value = "Show";
+				this.btShow.type = 'button';
+				this.btShow.title = 'Show/Hide spoiler';
+				div.appendChild(this.btShow);
+				this.content.style.display = 'none';
+			}
 			this.btShow.vbSpoiler = this;
 			this.btShow.setAttribute('spoilerid', this.id);
 			this.btShow.removeAttribute('onclick');
