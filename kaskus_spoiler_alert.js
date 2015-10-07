@@ -4,138 +4,144 @@
 // @description    add a warning message when a spoiler contains hidden link
 // @include        *.kaskus.*/thread/*
 // @include        *.kaskus.*/post/*
+// @include        *.kaskus.*/product/*
 // @include        *.kaskus.*/show_post/*
 // @include        *.kaskus.*/group/discussion/*
-// @version        2.65
+// @include        *.kaskus.co.id/thread/*
+// @include        *.kaskus.co.id/post/*
+// @include        *.kaskus.co.id/product/*
+// @include        *.kaskus.co.id/show_post/*
+// @include        *.kaskus.co.id/group/discussion/*
+// @version        2.66
 // @author         arifhn
 // @grant          GM_xmlhttpRequest
 // @grant          GM_registerMenuCommand
 // ==/UserScript==
 /**
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
- * 
- * 
+ *
+ *
  * Changelog:
  * ==========
- * 
+ *
  * 2.6
  * - fix new kaskus
  * - add setting key into greasemonkey/tampermonkey menu
  * - add 'Show All' menu to 'Thread Tools'
  * - fix group page
- * 
+ *
  * 2.5
  * - fix button width on kaskus beta
- *  
+ *
  * 2.4
  * - support livebeta.kaskus.us
- * 
+ *
  * 2.3
  * - change shortcut for setting, now use Ctrl+Alt+S
  * - fix update notification
- * 
+ *
  * 2.2
  * - add settings for enable/disable link preview
  * - add close button to popup box
- * 
+ *
  * 2.1 fix bug on Firefox 3.6.x
- * 
+ *
  * 2.0
  * - rewrite source code
  * - support Firefox 6 - support IDWS
- * 
+ *
  * 1.20
- * add button 'Show All' at top & bottom thread. 
+ * add button 'Show All' at top & bottom thread.
  * This button can show/hide all spoiler in current page
- * 
+ *
  * 1.19
  *  - add browser support Firefox 5.x
  *  - add html tag id (now easy to identify html tag created by KSA)
- * 
+ *
  * 1.18
  * fix bug: hidden link not detected if bbcode contains space/text between
  * URL and SPOILER, sample bbcode:
  * [URL=http://www.foo.com/#] extra space
  * [SPOILER=bar]lol[/SPOILER][/URL]
  * thanks to tuxie.forte
- * 
+ *
  * 1.17
  * add new feature: preview URL (title + original link)
- * 
+ *
  * 1.16
  * add browser support Firefox 4.x
- * 
+ *
  * 1.15
  * - support any standard vbulletin forum (tested on kaskus.us, indoforum.org)
  * - change all warning messages to english - add script update notification
- * 
+ *
  * 1.14
  * support google chrome
- * 
+ *
  * 1.13
  * add http://www.kaskus.us/group.php* to @include and
  * change the script to support it
- * 
+ *
  * 1.12
  * fix bug: link alert (too sensitive, now only check domain name)
- * 
+ *
  * 1.11
  * - scroll page to closed spoiler after 'Hide All' clicked
  * - hide button Show/Hide All if post contains 1 spoiler
  * - add new feature: fake link alert (show info if link text not equal to
  *   link url)
- * 
+ *
  * 1.10
  * add http://www.kaskus.us/showpost.php* to @include,
  * thanks to hermawanadhis
- * 
+ *
  * 1.9
  * revert back to 1.7 design with two button ('Show All' and 'Show') and
  * remove the popup menu
- * 
+ *
  * 1.8
  * - move 'Show All' and 'Show Children' button into popup menu
  * - fixed bug: button label 'Show'/'Hide'
- * 
+ *
  * 1.7
  * - change button 'Show All' -> 'Show Children' (open/close child spoiler)
  * - add button 'Show All' (open/close all spoilers)
- * 
+ *
  * 1.6
  * add button 'Show All' to open/close all child spoiler
- * 
+ *
  * 1.5
  * exclude kaskus smiley from picture counter
- * 
+ *
  * 1.4
  * add new feature: show how many picture and spoiler inside spoiler
- * 
+ *
  * 1.3
  * rewrite link detection thanks to "p1nk3d_books"
- * 
+ *
  * 1.2
  * fixed bug, hidden link not detected if font color changed thanks to
  * "p1nk3d_books"
- * 
+ *
  * 1.1
  * remove link from spoiler and show the hidden link thanks to "firo sXe"
  * (kaskusid 650045)
- * 
+ *
  * 1.0
  * first release
- * 
+ *
  */
 (function() {
 	var script = {
@@ -728,7 +734,7 @@
 					document.documentElement.scrollTop = 0;
 				}
 			},
-			
+
 			closeThreadTools : function() {
 				var threadtools = getElement('.//div[contains(@class,"tools-panel dropdown open")]', null, true);
 				if(threadtools) {
@@ -736,7 +742,7 @@
 					threadtools.setAttribute('class',attr.substring(0, attr.length - 5));
 				}
 			},
-			
+
 			addThreadTools : function(title, icon, id, callback) {
 				var dropdown = getElement('.//ul[@aria-labelledby="thread-tools"]');
 				if(dropdown && dropdown.length > 0) {
@@ -765,7 +771,7 @@
 					tools.appendChild(item);
 				}
 			},
-			
+
 			setupKSA : function() {
 				this.posts = this.getPosts();
 				for ( var i = 0; i < this.posts.length; ++i) {
@@ -786,7 +792,7 @@
 					VBPage.showAllClick(this);
 					VBPage.closeThreadTools();
 				});
-				
+
 				// add link preview setting to 'Thread Tools'
 				var configLinkPreview = script.getValue("KSA_LINK_PREVIEW", 'true') == 'true'?' KSA - Hide link preview':' KSA - Show link preview';
 				this.addThreadTools(configLinkPreview, 'fa-gear', 'ksa-link-preview', function() {
@@ -798,12 +804,12 @@
 					}
 					location.reload();
 				});
-				
+
 				// add keyboard listener
 				window.addEventListener('keydown', function(e) {
 					VBPage.onKeyDown(e);
 				}, true);
-				
+
 				if(GM_registerMenuCommand != 'undefined') {
 					GM_registerMenuCommand("KSA Setting", VBPage.openThreadTools);
 				}
